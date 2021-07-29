@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  name: postgres-deployment
   labels:
     app: postgres
 spec:
@@ -21,9 +21,7 @@ spec:
         - containerPort: 5432
         env:
         - name: POSTGRES_PASSWORD
-          value: example
-      - name: adminer
-        image: adminer
-        ports:
-        - containerPort: 8080
-
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: postgres-password
